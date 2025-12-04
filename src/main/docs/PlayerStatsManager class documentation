@@ -1,0 +1,90 @@
+/**
+ * PlayerStatsManager – Client-Side Player Statistics Manager
+ *
+ * Responsibilities:
+ * 1. Track player session information (join/leave timestamps, total time online while client is active).
+ * 2. Maintain greeting counts for players.
+ * 3. Handle persistent ignore list for players (players not tracked or greeted).
+ * 4. Persist and load stats from disk (config/welcomer_stats.txt).
+ * 5. Provide live stats for commands such as /welcomer stats <player> and leaderboards.
+ *
+ * Threading:
+ * - Most methods are synchronized to ensure thread safety since stats are updated
+ *   via chat listener threads and a scheduled executor for playtime ticks.
+ *
+ * Data Structures:
+ * - playerJoinTimes: Map<String, Long> – Last join timestamp for currently online players.
+ * - playerTimePlayed: Map<String, Long> – Accumulated milliseconds played per player.
+ * - greetingCounts: Map<String, Integer> – Number of times a player has been greeted.
+ * - ignoredPlayers: Set<String> – Players excluded from greetings and stats tracking.
+ * - ignoreFile: Path – File path for persisting ignored players.
+ * - statsFilePath: Path – File path for persisting greets and playtime stats.
+ *
+ * Key Features:
+ * 1. Auto-initialize ignore list on first run.
+ * 2. Methods to add/remove/check ignored players (ignorePlayer, unignorePlayer, isIgnored).
+ * 3. Methods to track player joins/leaves (onPlayerJoin, onPlayerLeave).
+ * 4. Live tick update to accumulate playtime every second (tickUpdateForAllOnline).
+ * 5. Methods to read/write stats to file for persistence (writeStatsToFile, loadStatsFromFile).
+ * 6. One-arg and two-arg load methods for single player stats (loadSinglePlayerFromDisk).
+ * 7. Format human-readable time (getTimePlayed, formatTime).
+ * 8. Generate leaderboard or top N playtime (getAllTimePlayed, getTopPlaytime).
+ *
+ * Notes / Best Practices:
+ * - Player names are assumed unique (no UUID mapping for client-only tracking).
+ * - Ignored players are not tracked in join/leave events or greeted.
+ * - All disk IO operations catch IOException internally to avoid crashing the client.
+ * - tickUpdate increments total playtime accurately while handling online/offline status.
+ * - Greetings are recorded separately and updated in stats.
+ */
+
+
+/**
+ * Adds a player to the ignore list and persists the file immediately.
+ */
+public synchronized void ignorePlayer(String playerName) throws IOException { ... }
+
+/**
+ * Removes a player from the ignore list and persists the file immediately.
+ */
+public synchronized void unignorePlayer(String playerName) throws IOException { ... }
+
+/**
+ * Checks whether a player is currently ignored.
+ */
+public synchronized boolean isIgnored(String playerName) { ... }
+
+/**
+ * Records that a player has been greeted once.
+ */
+public synchronized void recordGreet(String playerName) { ... }
+
+/**
+ * Returns the number of times a player has been greeted.
+ * Loads from disk if not present in memory.
+ */
+public synchronized int getGreetCount(String playerName) { ... }
+
+/**
+ * Returns the total time a player has been online while client is active
+ * in human-readable format "Xh Ym Zs".
+ */
+public synchronized String getTimePlayed(String playerName) { ... }
+
+/**
+ * Update accumulated playtime for all online players.
+ * Called every second by the Welcomer scheduler.
+ */
+public synchronized void tickUpdateForAllOnline() { ... }
+
+/**
+ * Writes all player stats (time + greets) to disk in config/welcomer_stats.txt.
+ */
+public synchronized void writeStatsToFile(Path file) { ... }
+
+/**
+ * Loads all stats from the given file into memory.
+ */
+public synchronized void loadStatsFromFile(Path file) { ... }
+
+

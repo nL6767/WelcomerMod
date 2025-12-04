@@ -1,0 +1,138 @@
+[Server sends chat message]
+        |
+        v
+[ClientReceiveMessageEvents.GAME]
+        |
+        +--> Check if message matches "<Player> joined the game"
+        |        |
+        |        v
+        |   [statsManager.onPlayerJoin(playerName)]
+        |        |
+        |        +--> if player is ignored -> skip
+        |        +--> else -> record join timestamp
+        |
+        +--> Check if message ends with "<Player> left the game"
+                 |
+                 v
+           [statsManager.onPlayerLeave(playerName)]
+                 |
+                 +--> if player is ignored -> skip
+                 +--> else -> add session duration to total playtime
+
+----------------------------------------------------------------
+[Optional greeting block]  (only if Welcomer enabled)
+        |
+        v
+   Check cooldown for player
+        |
+        v
+   [greetPlayer(playerName)]
+        |
+        +--> polls a message from queue
+        +--> sends chat message
+        +--> [statsManager.recordGreet(playerName)]
+                 |
+                 +--> if player is ignored -> still skipped
+
+----------------------------------------------------------------
+[Self-greet block] (enabledSelfGreet toggle)
+        |
+        v
+   Check self cooldown
+        |
+        v
+   [greetSelfWithCooldown()]
+        |
+        +--> sends message as client player
+        +--> [statsManager.recordGreet(clientName)]
+
+----------------------------------------------------------------
+[Scheduler thread - every 1s]
+        |
+        v
+[statsManager.tickUpdateForAllOnline()]
+        |
+        +--> Updates online playtime for all tracked players
+        |
+        v
+Every 60 ticks: [statsManager.writeStatsToFile(statsFilePath)]
+        |
+        +--> Persists greets + playtime
+
+
+
+
+
+================================================================================
+                               WELCOMER MOD FLOW
+================================================================================
+
+[Minecraft Client]
+       |
+       v
+[WelcomerMod (ClientModInitializer)]
+       |
+       |-- Initialize PlayerStatsManager (statsManager)
+       |-- Setup config paths & load welcome messages
+       |-- Refill message queues
+       |-- Register commands (/welcomer ...)
+       |-- Register chat listener
+       |-- Schedule real-time stats tick (every 1 sec)
+       |-- Trigger self-greet on join
+       |
+       v
++---------------------------+
+| PLAYER STATS MANAGER      |
+|---------------------------|
+| - playerJoinTimes         |
+| - playerTimePlayed        |
+| - greetingCounts          |
+| - ignoredPlayers          |
+|---------------------------|
+| Methods:                  |
+| - onPlayerJoin(name)      |
+| - onPlayerLeave(name)     |
+| - recordGreet(name)       |
+| - tickUpdateForAllOnline()|
+| - writeStatsToFile(path)  |
+| - loadStatsFromFile(path) |
+| - ignorePlayer(name)      |
+| - unignorePlayer(name)    |
+| - isIgnored(name)         |
++---------------------------+
+       ^
+       |
+       |-- updates via
+       |   - Chat Listener (join/leave)
+       |   - Scheduler tick every 1 sec
+       |
+[Message Sending / Greeting]
+       |
+       |-- greetPlayer(name)  (if enabled)
+       |-- greetSelfWithCooldown (if self-greet enabled)
+       |
+[Message Queues]
+       |
+       |-- allMessages (loaded from config / jar)
+       |-- messageQueue (shuffled copy)
+       |-- selfMessageQueue (shuffled copy)
+       |
+[Commands]
+       |
+       |-- /welcomer toggle          -> enables/disables greetings
+       |-- /welcomer selfgreet toggle -> enables/disables self-greet
+       |-- /welcomer ignore <player> -> adds player to ignoredPlayers
+       |-- /welcomer unignore <player>
+       |-- /welcomer stats <player>
+       |-- /welcomer stats top
+       |-- /welcomer config reload / add
+       |
+[File Persistence]
+       |
+       |-- welcomer_stats.txt  (playtime + greets)
+       |-- welcomer_ignore.txt (ignored players)
+       |
+================================================================================
+
+
+

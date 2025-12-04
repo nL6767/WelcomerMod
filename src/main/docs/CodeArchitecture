@@ -1,0 +1,55 @@
+================================================================================
+                         WELCOMER MOD – QUICK REFERENCE
+================================================================================
+
+[PLAYER JOINS]
+       |
+       v
+  Chat Listener / JOIN Event
+       |
+       +--> statsManager.onPlayerJoin(name)   (always tracked)
+       +--> if (self-greet enabled) greetSelfWithCooldown()
+       +--> if (welcomer enabled & not ignored) greetPlayer(name)
+
+[PLAYER LEAVES]
+       |
+       v
+  Chat Listener / LEAVE Event
+       |
+       +--> statsManager.onPlayerLeave(name)  (accumulate time)
+       +--> write stats to file (periodically via scheduler or on disconnect)
+
+[GREETING LOGIC]
+       |
+       v
+  Scheduler + Message Queues
+       |
+       +--> allMessages loaded from config / jar
+       +--> messageQueue (shuffled)
+       +--> selfMessageQueue (shuffled)
+       +--> greetPlayer(name) / greetSelfWithCooldown() send chat
+
+[COMMANDS (/welcomer ...)]
+       |
+       +--> toggle            (enable/disable greetings)
+       +--> selfgreet toggle  (enable/disable self-greet)
+       +--> ignore <player>   (add to ignoredPlayers)
+       +--> unignore <player> (remove from ignoredPlayers)
+       +--> stats <player>    (show stats locally)
+       +--> stats top         (show top playtime locally)
+       +--> print stats <player/top> (send stats publicly)
+       +--> config reload/add (update messages)
+
+[STATS & FILES]
+       |
+       +--> playerJoinTimes / playerTimePlayed / greetingCounts / ignoredPlayers
+       +--> periodic tick every 1 sec updates playtime
+       +--> writeStatsToFile() → welcomer_stats.txt
+       +--> ignorePlayer() / unignorePlayer() → welcomer_ignore.txt
+       +--> loadStatsFromFile() / loadSinglePlayerFromDisk() for persistence
+
+[NOTES]
+  - Stats always tracked regardless of greeting toggle
+  - Ignored players are excluded from greetings and stats tracking
+  - Self-greet is independent of the main enable toggle
+================================================================================

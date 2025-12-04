@@ -1,0 +1,34 @@
+/**
+ * WelcomerMemoryMonitor – Client-Side Memory Monitoring Tool
+ *
+ * Purpose:
+ * - Tracks memory usage of key Welcomer objects in real time.
+ * - Logs JVM memory usage and approximate memory usage of tracked objects.
+ * - Helps detect memory leaks or growth patterns in the mod.
+ *
+ * Core Features:
+ * 1. Waits for WelcomerMod and PlayerStatsManager to be fully initialized.
+ * 2. Tracks only essential objects:
+ *      - WelcomerMod instance
+ *      - PlayerStatsManager instance
+ * 3. Estimates object size recursively for common collections:
+ *      - Lists, Maps, Sets, arrays, Strings
+ * 4. Logs memory usage every 5 seconds to:
+ *      - Console (System.out)
+ *      - File (config/welcomer_memory_log.txt)
+ *
+ * Fields:
+ * - client: MinecraftClient instance.
+ * - trackedObjects: List<Object> of objects to monitor memory.
+ * - logFile: Path for memory log file.
+ *
+ * Methods:
+ * - estimateObjectSize(Object obj):
+ *      Estimates memory usage recursively for an object and its children.
+ *
+ * Notes / Best Practices:
+ * - Estimations are approximate, not JVM precise.
+ * - Only tracks Welcomer-specific objects to avoid overhead.
+ * - Uses a dedicated thread for monitoring; does not block client main thread.
+ * - Handles log file creation and appending safely.
+ */

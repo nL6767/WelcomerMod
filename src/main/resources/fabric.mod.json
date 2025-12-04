@@ -1,0 +1,29 @@
+{
+	"schemaVersion": 1,
+	"id": "welcomer",
+	"version": "1.0.0",
+	"name": "Welcomer",
+	"description": "Automatically welcomes players when they join your server.",
+	"authors": ["sq3rrr"],
+	"contact": {
+		"homepage": "https://github.com/sq3rrr/WelcomerMod",
+		"sources": "https://github.com/sq3rrr/WelcomerMod"
+	},
+	"license": "MIT",
+	"icon": "assets/welcomer/icon.png",
+
+	"environment": "client",
+
+	"entrypoints": {
+		"client": [
+			"com.sq3rrr.welcomer.WelcomerMod"
+		]
+	},
+
+	"depends": {
+		"fabricloader": ">=0.18.1",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

@@ -1,0 +1,111 @@
+1. Overview
+
+Welcomer is a client-side Minecraft mod that:
+- Automatically greets players when they join your server.
+- Tracks player join/leave sessions and playtime.
+- Maintains greeting counts for each player.
+- Provides commands to customize behavior and manage stats.
+- Allows self-greetings with configurable cooldown.
+- Provides memory tracking for debugging (optional, internal).
+
+Key Features:
+
+- Join/Leave tracking for all players, even if greetings are disabled.
+- Greeting messages loaded from config/welcomer_messages.txt.
+- Ignore players from greetings and stats with /welcomer ignore.
+- Persistent stats stored in config/welcomer_stats.txt.
+- Leaderboards via /welcomer stats top and /welcomer print stats top.
+
+2. Commands
+
+All commands are client-side only and start with /welcomer.
+
+/welcomer toggle            → Enable/disable greetings (Default: OFF)
+/welcomer selfgreet toggle  → Enable/disable self-greet (5 min cooldown)
+/welcomer status            → Show current toggle states
+
+
+
+
+2.1 Ignore / Unignore Players
+/welcomer ignore <player>
+/welcomer unignore <player>
+
+
+Ignores a player for greetings and stats tracking.
+Persists ignore list to config/welcomer_ignore.txt.
+
+
+2.2 Player Stats
+
+/welcomer stats <player>    → Show greets & time online with you
+/welcomer stats top         → Top 10 players by time online
+
+Shows top 10 players by total time online (with you) along with greet count.
+
+Example output:
+
+--- Top 10 Players by Playtime ---
+1. Emre | Time: 2h 14m 23s | Greets: 7
+2. Armani | Time: 1h 55m 12s | Greets: 5
+...
+
+2.3 Print Stats to Chat
+/welcomer print stats <player>
+/welcomer print stats top
+
+
+Sends stats publicly in the chat instead of client-only overlay.
+
+/top version prints top 3 players with a 1.8s staggered delay between messages.
+
+2.4 Config Management
+/welcomer config reload
+Reloads welcome messages from config/welcomer_messages.txt.
+
+/welcomer config add <message>
+Adds a new welcome message to welcomer_messages.txt.
+
+Example:
+/welcomer config add Welcome %s to the server!
+Supports %s placeholder for player names.
+
+3. Player Tracking Details
+Always Tracked: Join/Leave events are tracked even when Welcomer is OFF.
+
+Ignored Players: /welcomer ignore <player> prevents:
+- Greetings
+- Playtime tracking
+- Stats counting
+- Playtime: Counts the milliseconds a player is online while your client is connected.
+- Greets: Only recorded when the player is greeted via Welcomer.
+
+
+4. Self-Greet Behavior
+- Self-greet messages rotate randomly from a predefined list.
+- Uses 5-minute cooldown.
+- Example self-greet messages:
+- "Hello everyone!"
+- "I arrived!"
+- "Wow, I'm here!"
+
+
+5. Configuration Files
+- config/welcomer_messages.txt → Stores custom welcome messages.
+- config/welcomer_stats.txt → Stores persistent stats per player.
+- config/welcomer_ignore.txt → Stores ignored player names.
+- These files are auto-created on first run if missing.
+
+
+6. Memory Monitoring (Internal)
+- Optional debug tool: WelcomerMemoryMonitor.
+- Logs JVM and tracked object memory usage every 5 seconds.
+- Writes to config/welcomer_memory_log.txt.
+- Only tracks WelcomerMod and PlayerStatsManager objects.
+
+
+7. Tips & Notes
+Default State: Greeting features are OFF to prevent spam. Stats tracking is always active.
+Thread-Safe: All stats operations are synchronized.
+Staggered printing: Prevents chat spam when printing top players publicly.
+File Persistence: All changes (ignore list, stats, messages) are persisted immediately
