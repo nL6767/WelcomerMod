@@ -1,8 +1,8 @@
 # WelcomerMod
 
 **Version:** 1.0.0
-**Author:** sq3rrr (nL66ercatgirl67 while testing)
-**GitHub:** [WelcomerMod](https://github.com/sq3rrr/WelcomerMod)
+**Author:** nL6767 (nL66ercatgirl67 while testing)
+**GitHub:** https://github.com/nL6767/WelcomerMod
 
 ---
 
@@ -11,7 +11,7 @@
 WelcomerMod is a customizable chat-enhancer for Minecraft Anarchy servers, specifically designed for **Constantiam**. It automatically greets players on join and allows the client user to self-greet.
 
 Will work on any Vanilla server that hasn t modified join messages.
-Does not work; On DONUTsmp, Oldfag, 2b, basically all gayass servers and I wont change that. Clone repo and change this line for your Server if it uses different join-notifications:
+Does not work; On DONUTsmp, Oldfag, 2b, basically all soy servers and I wont change that. Clone repo and change this line for your Server if it uses different join-notifications:
 
 for regex matcher:
 
@@ -95,7 +95,7 @@ Constantiam.net, anarchy.ac (BANNED;TheBanhammerHasSpoken), Vanilla+(BANNED #ina
 
 ## License
 
-Fuck licences nga basic github aah licence
+F*** licences basic github aah licence
 
 ---
 
