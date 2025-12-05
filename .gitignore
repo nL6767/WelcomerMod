@@ -1,0 +1,58 @@
+# ============================
+# EXISTING CONTENT (KEEP)
+# ============================
+
+# gradle
+.gradle/
+build/
+out/
+classes/
+
+# eclipse
+*.launch
+
+# idea
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# vscode
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+*.DS_Store
+
+# fabric
+run/
+
+# java
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr
+
+# ============================
+# NEW ADDITIONS (IMPORTANT)
+# ============================
+
+# Windows OS junk
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# User-generated Welcomer config files
+# (These appear ONLY in user's .minecraft/config/, not inside your mod)
+config/welcomer_messages.txt
+config/welcomer_ignore.txt
+config/welcomer_selfmessages.txt
+
+# Backup/noise
+*.bak
+*.tmp
