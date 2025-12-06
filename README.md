@@ -97,7 +97,7 @@ Constantiam.net, anarchy.ac (BANNED;TheBanhammerHasSpoken), Vanilla+(BANNED #ina
 
 ## License
 
-F*** licences basic github aah licence
+basic github aah licence
 
 ---
 
