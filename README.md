@@ -8,7 +8,7 @@
 
 ## Overview
 
-# RE-UPLOAD FROM NEW GITHUB PROFILE, OLD GOT FLAGGED AAH NWORD IN CODE
+# RE-UPLOAD TO NEW GITHUB PROFILE, OLD GOT FLAGGED AAH NWORD IN CODE
 
 WelcomerMod is a customizable chat-enhancer for Minecraft Anarchy servers, specifically designed for **Constantiam**. It automatically greets players on join and allows the client user to self-greet.
 
